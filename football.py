@@ -83,4 +83,7 @@ def winning_goals(first_score: str, second_score: str, location: str) -> int:
     goals_to_score = (total_goals_team2 - total_goals_team1 + 1) if location == '2' else \
         (total_goals_team2 - total_goals_team1)
 
-    return max(goals_to_score, 1)
+    if goals1 == goals2 and curr_goals1 == curr_goals2 == 0:
+        return 1
+
+    return max(goals_to_score, 0)
