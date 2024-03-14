@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'accounts.apps.AccountsConfig',
+    'vetclinics.apps.VetclinicsConfig',
 ]
 
 AUTH_USER_MODEL = 'accounts.Account'
