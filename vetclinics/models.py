@@ -1,7 +1,8 @@
 from django.db import models
+from django.utils.text import slugify
 
-from .bases import DateTimeBaseModel
 from accounts.models import Account
+from .bases import DateTimeBaseModel
 
 
 class AnimalType(DateTimeBaseModel):
@@ -12,6 +13,11 @@ class AnimalType(DateTimeBaseModel):
     class Meta:
         verbose_name = 'Животное'
         verbose_name_plural = 'Животные'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
