@@ -11,7 +11,7 @@ class AppointmentAdminForm(forms.ModelForm):
         model = Appointment
         fields = '__all__'
 
-    def clean(self):
+    def clean_appointment_date(self):
         cleaned_data = super().clean()
         appointment_date = cleaned_data.get("appointment_date")
         if appointment_date and appointment_date < timezone.now():
