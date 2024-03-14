@@ -13,9 +13,9 @@ class AppointmentAdminForm(forms.ModelForm):
 
     def clean_appointment_date(self):
         cleaned_data = super().clean()
-        appointment_date = cleaned_data.get("appointment_date")
+        appointment_date = cleaned_data.get('appointment_date')
         if appointment_date and appointment_date < timezone.now():
-            raise ValidationError("Дата и время записи должны быть в будущем времени")
+            raise ValidationError('Дата и время записи должны быть в будущем времени')
         return cleaned_data
 
 
