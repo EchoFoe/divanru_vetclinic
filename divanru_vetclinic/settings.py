@@ -95,4 +95,12 @@ DATE_FORMAT = 'd E Y'
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static', 'static_dev'),)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static_prod')
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

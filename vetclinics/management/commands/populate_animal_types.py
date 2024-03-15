@@ -5,10 +5,11 @@ from django.db import transaction
 from tqdm import tqdm
 
 from vetclinics.models import AnimalType
+from accounts.factories import AccountFactory
 
 
 class Command(BaseCommand):
-    help: str = 'Загрузка AnimalTypes'
+    help: str = 'Загрузка AnimalTypes, Accounts'
 
     @transaction.atomic
     def handle(self, *args: List[str], **kwargs: dict) -> None:
@@ -25,8 +26,8 @@ class Command(BaseCommand):
             'Крокодил',
         ]
 
-        total: int = len(animal_types)
-        with tqdm(total=total, desc='Загрузка типов животных', unit='Тип животного') as pbar:
+        total_anemal_types: int = len(animal_types)
+        with tqdm(total=total_anemal_types, desc='Загрузка типов животных', unit='Тип животного') as pbar:
             for name in animal_types:
                 animal_type, created = AnimalType.objects.get_or_create(name=name)
                 if created:

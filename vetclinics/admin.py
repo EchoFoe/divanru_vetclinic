@@ -1,22 +1,6 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
-from django.utils import timezone
-from django import forms
-
+from .forms import AppointmentForm
 from .models import AnimalType, Appointment
-
-
-class AppointmentAdminForm(forms.ModelForm):
-    class Meta:
-        model = Appointment
-        fields = '__all__'
-
-    def clean_appointment_date(self):
-        cleaned_data = super().clean()
-        appointment_date = cleaned_data.get('appointment_date')
-        if appointment_date and appointment_date < timezone.now():
-            raise ValidationError('Дата и время записи должны быть в будущем времени')
-        return cleaned_data
 
 
 @admin.register(AnimalType)
@@ -48,7 +32,7 @@ class AppointmentAdmin(admin.ModelAdmin):
     """ Админ-панель для записи на приём """
 
     save_as = True
-    form = AppointmentAdminForm
+    form = AppointmentForm
     list_display = ['client', 'appointment_date', 'animal_type', 'created_at', 'updated_at']
     list_display_links = ['client']
     date_hierarchy = 'appointment_date'
@@ -66,3 +50,6 @@ class AppointmentAdmin(admin.ModelAdmin):
             'fields': ('is_active',)
         }),
     )
+
+    class Media:
+        js = ('admin/js/appointment_date_form.js',)
