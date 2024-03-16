@@ -70,6 +70,7 @@ class AppointmentSerializer(serializers.Serializer):
         Raises:
             serializers.ValidationError: Если дата и время записи на прием в прошедшем времени.
             serializers.ValidationError: Если минуты не равны 00 или 30.
+            serializers.ValidationError: Если время выходит за пределы рабочего времени ветклиники.
             serializers.ValidationError: Если формат даты и времени неверный.
         """
         try:
@@ -78,6 +79,8 @@ class AppointmentSerializer(serializers.Serializer):
                 raise serializers.ValidationError('Нельзя записаться на прием в прошедшем времени')
             if appointment_date.minute not in [0, 30]:
                 raise serializers.ValidationError('Минуты должны быть равны 00 или 30')
+            if not (9 <= appointment_date.hour < 18):
+                raise serializers.ValidationError('Время записи на прием должно быть между 09:00 и 18:00')
             return appointment_date
         except ValueError:
             raise serializers.ValidationError('Неверный формат даты и времени')

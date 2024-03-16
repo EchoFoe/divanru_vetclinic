@@ -39,6 +39,7 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_filter = ['animal_type', 'is_active', ]
     search_fields = ['client__first_name', 'client__last_name', 'client__phone']
     readonly_fields = ['created_at', 'updated_at']
+    ordering = ['appointment_date']
     fieldsets = (
         ('Основная информация', {
             'fields': (('client', 'animal_type'),)
