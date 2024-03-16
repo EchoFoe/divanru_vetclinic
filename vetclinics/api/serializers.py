@@ -69,12 +69,15 @@ class AppointmentSerializer(serializers.Serializer):
 
         Raises:
             serializers.ValidationError: Если дата и время записи на прием в прошедшем времени.
+            serializers.ValidationError: Если минуты не равны 00 или 30.
             serializers.ValidationError: Если формат даты и времени неверный.
         """
         try:
             appointment_date = make_aware(value)
             if appointment_date <= timezone.now():
                 raise serializers.ValidationError('Нельзя записаться на прием в прошедшем времени')
+            if appointment_date.minute not in [0, 30]:
+                raise serializers.ValidationError('Минуты должны быть равны 00 или 30')
             return appointment_date
         except ValueError:
             raise serializers.ValidationError('Неверный формат даты и времени')
