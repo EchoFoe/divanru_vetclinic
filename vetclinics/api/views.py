@@ -14,7 +14,7 @@ from drf_yasg import openapi
 from accounts.models import Account
 from vetclinics.models import AnimalType, Appointment
 
-from .serializers import AppointmentSerializer
+from .serializers import AppointmentSerializer, AnimalTypeSerializer
 
 
 VETCLINICS = 'Ветеринарная клиника'
@@ -131,3 +131,30 @@ class FreeSlotsAPIView(APIView):
         ]
 
         return Response(formatted_free_slots, status=status.HTTP_200_OK)
+
+
+class AnimalTypeAPIView(APIView):
+    @swagger_auto_schema(
+        tags=[VETCLINICS],
+        operation_summary='Список типов животных',
+        responses={
+            200: openapi.Response(
+                description='Список типов животных',
+                schema=openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    items=openapi.Schema(type=openapi.TYPE_OBJECT),
+                ),
+            ),
+            400: 'Ошибка',
+        },
+    )
+    def get(self, request) -> Response:
+        """
+        Получение списка всех типов животных.
+
+        Returns:
+            Response: Список всех типов животных.
+        """
+        animal_types = AnimalType.objects.all()
+        serializer = AnimalTypeSerializer(animal_types, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

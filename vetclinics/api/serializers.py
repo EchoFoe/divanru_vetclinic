@@ -4,7 +4,7 @@ from django.utils.timezone import make_aware
 
 from rest_framework import serializers
 
-from vetclinics.models import Appointment
+from vetclinics.models import Appointment, AnimalType
 
 
 class CustomDateTimeField(serializers.Field):
@@ -96,3 +96,9 @@ class AppointmentSerializer(serializers.Serializer):
             Appointment: Созданный объект модели Appointment.
         """
         return Appointment.objects.create(**validated_data)
+
+
+class AnimalTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnimalType
+        fields = ['id', 'name', 'slug']
